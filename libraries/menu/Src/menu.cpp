@@ -24,7 +24,20 @@ namespace menu
 		_controls(controls),
 		_count_controls(count_controls),
 		_rect(rect)
-	{}
+	{
+		if(_controls && _count_controls > 0 && find_focus() == -1)
+		{
+			for(uint8_t i = 0; i < _count_controls; i++)
+			{
+				Control *control = *(_controls + i);
+				if(control && control->is_focus)
+				{
+					control->focus = true;
+					break;
+				}
+			}
+		}
+	}
 	//-----------------
 	void Screen::draw()
 	{
@@ -55,19 +68,50 @@ namespace menu
 
 		ssd1306_UpdateScreen();
 	}
+	//-------------------------
+	int8_t Screen::find_focus()
+	{
+		for(uint8_t i = 0; i < _count_controls; i++)
+		{
+			Control *control = *(_controls + i);
+			if(control && control->is_focus && control->focus)
+				return i;
+		}
+
+		return -1;
+	}
 	//-----------------------------------
 	void Screen::onClick(ButtonIdType id)
 	{
-		if(id == BUTTON_SELECT)
+		int8_t index = find_focus();
+
+		if(index == -1)
+			return;
+
+		Control *control_current = *(_controls + index);
+
+		if(id == BUTTON_UP)
 		{
-			for(uint8_t i = 0; i < _count_controls; i++)
+			if(index > 0)
 			{
-				Control *control = *(_controls + i);
-				if(control && control->is_focus && control->focus)
-				{
-					control->onClick(id);
-				}
+				Control *control_prev = *(_controls + (index - 1));
+				control_current->focus = false;
+				control_prev->focus = true;
 			}
+		}
+		else if(id == BUTTON_DOWN)
+		{
+			if(index < (_count_controls - 1))
+			{
+				Control *control_next = *(_controls + (index + 1));
+
+				control_current->focus = false;
+				control_next->focus    = true;
+			}
+		}
+		else if(id == BUTTON_SELECT)
+		{
+			control_current->onClick(id);
 		}
 	}
 	//------------------------

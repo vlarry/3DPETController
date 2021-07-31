@@ -356,8 +356,7 @@ void StartDisplay(void *argument)
 	Rectangle rectButton(0, 0, SSD1306_WIDTH, 32);
 	menu::Button buttonHeating("НАГРЕВ", rectButton, FontVerdana_16x16);
 	menu::Button buttonMotor("ДВИГАТЕЛЬ", rectButton, FontVerdana_16x16);
-	buttonHeating.focus = true;
-	buttonHeating.is_toggle = true;
+	buttonHeating.is_toggle = buttonMotor.is_toggle = true;
 	buttonHeating.onClick();
 	menu::Control *controls[] = { &buttonHeating, &buttonMotor };
 	menu::Screen screenMain(rectMain, nullptr, nullptr, controls, 2);

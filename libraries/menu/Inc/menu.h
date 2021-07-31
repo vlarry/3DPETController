@@ -29,8 +29,8 @@
 			uint8_t top;
 			uint8_t bottom;
 		};
-		//-------------------------------
-		typedef void (*callback_t)(void);
+		//--------------------------------
+		using callback_t = void (*)(void);
 		//------------
 		class Control;
 		//----------
@@ -40,6 +40,7 @@
 				explicit Screen();
 				explicit Screen(const Rectangle &rect, Screen *next, Screen *prev, Control **controls, uint8_t count_controls);
 				void draw();
+				int8_t find_focus();
 				void onClick(ButtonIdType id);
 
 			public:
