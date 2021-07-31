@@ -18,13 +18,13 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
+#include <key.h>
 #include "main.h"
 #include "cmsis_os.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "menu.h"
-#include "button.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -356,8 +356,9 @@ void StartDisplay(void *argument)
 	Rectangle rectButton(0, 0, SSD1306_WIDTH, 32);
 	menu::Button buttonHeating("НАГРЕВ", rectButton, FontVerdana_16x16);
 	menu::Button buttonMotor("ДВИГАТЕЛЬ", rectButton, FontVerdana_16x16);
+	buttonHeating.events.add(menu::BUTTON_SELECT);
+	buttonMotor.events.add(menu::BUTTON_SELECT);
 	buttonHeating.is_toggle = buttonMotor.is_toggle = true;
-	buttonHeating.onClick();
 	menu::Control *controls[] = { &buttonHeating, &buttonMotor };
 	menu::Screen screenMain(rectMain, nullptr, nullptr, controls, 2);
 
@@ -387,7 +388,7 @@ void StartDisplay(void *argument)
 									uint8_t bit = (1 << bit_pos);
 									if(id_buttons & bit)
 									{
-										screenMain.onClick((menu::ButtonIdType)bit);
+										screenMain.onClick((menu::key_t)bit);
 										id_buttons &= ~bit;
 									}
 
@@ -418,63 +419,63 @@ void StartDisplay(void *argument)
 void StartButtonScan(void *argument)
 {
   /* USER CODE BEGIN StartButtonScan */
-	button::BUTTON_SetDef set_left =
+	key::key_set_t set_left =
 	{
 		BUTTON_LEFT_GPIO_Port,
 		BUTTON_LEFT_Pin,
 		menu::BUTTON_LEFT,
 		GPIO_PIN_RESET,
-		button::PRESSED_STATE,
-		button::Keyboard::period,
+		key::PRESSED_STATE,
+		key::Keyboard::period,
 		false
 	};
-	button::BUTTON_SetDef set_right =
+	key::key_set_t set_right =
 	{
 		BUTTON_RIGHT_GPIO_Port,
 		BUTTON_RIGHT_Pin,
 		menu::BUTTON_RIGHT,
 		GPIO_PIN_RESET,
-		button::PRESSED_STATE,
-		button::Keyboard::period,
+		key::PRESSED_STATE,
+		key::Keyboard::period,
 		false
 	};
-	button::BUTTON_SetDef set_up =
+	key::key_set_t set_up =
 	{
 		BUTTON_UP_GPIO_Port,
 		BUTTON_UP_Pin,
 		menu::BUTTON_UP,
 		GPIO_PIN_RESET,
-		button::PRESSED_STATE,
-		button::Keyboard::period,
+		key::PRESSED_STATE,
+		key::Keyboard::period,
 		false
 	};
-	button::BUTTON_SetDef set_down =
+	key::key_set_t set_down =
 	{
 		BUTTON_DOWN_GPIO_Port,
 		BUTTON_DOWN_Pin,
 		menu::BUTTON_DOWN,
 		GPIO_PIN_RESET,
-		button::PRESSED_STATE,
-		button::Keyboard::period,
+		key::PRESSED_STATE,
+		key::Keyboard::period,
 		false
 	};
-	button::BUTTON_SetDef set_select =
+	key::key_set_t set_select =
 	{
 		BUTTON_SELECT_GPIO_Port,
 		BUTTON_SELECT_Pin,
 		menu::BUTTON_SELECT,
 		GPIO_PIN_RESET,
-		button::PRESSED_STATE,
-		button::Keyboard::period,
+		key::PRESSED_STATE,
+		key::Keyboard::period,
 		true
 	};
-	button::Button button_left(set_left);
-	button::Button button_right(set_right);
-	button::Button button_up(set_up);
-	button::Button button_down(set_down);
-	button::Button button_select(set_select);
-	button::Button *buttons[] = { &button_left, &button_right, &button_select, &button_up, &button_down };
-	button::Keyboard keyboard(buttons, 5);
+	key::Key button_left(set_left);
+	key::Key button_right(set_right);
+	key::Key button_up(set_up);
+	key::Key button_down(set_down);
+	key::Key button_select(set_select);
+	key::Key *buttons[] = { &button_left, &button_right, &button_select, &button_up, &button_down };
+	key::Keyboard keyboard(buttons, 5);
 
 	Message_TypeDef message;
 	uint32_t active_buttons;

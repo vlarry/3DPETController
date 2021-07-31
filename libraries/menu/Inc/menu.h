@@ -13,13 +13,14 @@
 	//------------
 	namespace menu
 	{
-		enum ButtonIdType
+		enum key_t
 		{
-			BUTTON_LEFT   = 0,
-			BUTTON_RIGHT  = 1,
-			BUTTON_UP     = 2,
-			BUTTON_DOWN   = 4,
-			BUTTON_SELECT = 8
+			BUTTON_LEFT    = 0,
+			BUTTON_RIGHT   = 1,
+			BUTTON_UP      = 2,
+			BUTTON_DOWN    = 4,
+			BUTTON_SELECT  = 8,
+			BUTTON_UNKNOWN = 0xFF
 		};
 		//-------------
 		struct margin_t
@@ -33,6 +34,24 @@
 		using callback_t = void (*)(void);
 		//------------
 		class Control;
+		//------------
+		class EventKey
+		{
+			public:
+				explicit EventKey();
+				//---------------------------
+				bool add(const key_t &event);
+				//-----------------------------------------
+				void add_range(key_t *events, size_t size);
+				//-----------------------------
+				bool exist(const key_t &event);
+				//------------------------------
+				bool remove(const key_t &event);
+
+			private:
+				enum { MAX_SIZE = 5 };
+				key_t _events[MAX_SIZE];
+		};
 		//----------
 		class Screen
 		{
@@ -41,7 +60,7 @@
 				explicit Screen(const Rectangle &rect, Screen *next, Screen *prev, Control **controls, uint8_t count_controls);
 				void draw();
 				int8_t find_focus();
-				void onClick(ButtonIdType id);
+				void onClick(key_t id);
 
 			public:
 				bool is_rect;
@@ -61,7 +80,7 @@
 				explicit Control(const Rectangle &rect, const font_t &font);
 				virtual void draw();
 				const font_t& font() const;
-				virtual void onClick(ButtonIdType button_id = BUTTON_SELECT);
+				virtual void onClick(key_t button_id = BUTTON_SELECT);
 				const Rectangle& rect() const;
 				void setRectangle(const Rectangle &rect);
 
@@ -70,6 +89,7 @@
 				bool     focus;
 				bool     is_focus;
 				margin_t margin;
+				EventKey events;
 
 			protected:
 				Rectangle _rect;
@@ -93,7 +113,7 @@
 			public:
 				Button();
 				Button(const char *text, const Rectangle &rect, const font_t &font, callback_t callback = nullptr);
-				void onClick(ButtonIdType button_id = BUTTON_SELECT) override;
+				void onClick(key_t button_id = BUTTON_SELECT) override;
 
 			public:
 				bool is_toggle;

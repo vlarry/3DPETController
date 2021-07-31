@@ -4,53 +4,53 @@
  *  Created on: 19 апр. 2021 г.
  *      Author: gruffi
  */
-#include "button.h"
+#include <key.h>
 //--------------
-namespace button
+namespace key
 {
 	// Class Button
-	Button::Button(const BUTTON_SetDef &button_set):
+	Key::Key(const key_set_t &button_set):
 		is_active(false),
 		state(INACTIVE_STATE),
 		time(0),
 		_set(button_set)
 	{}
-	//-------------------------------
-	const uint32_t Button::id() const
+	//----------------------------
+	const uint32_t Key::id() const
 	{
 		return _set.id;
 	}
-	//----------------------------------
-	const bool Button::is_repeat() const
+	//-------------------------------
+	const bool Key::is_repeat() const
 	{
 		return _set.is_repeat;
 	}
-	//-----------------------------
-	const bool Button::read() const
+	//--------------------------
+	const bool Key::read() const
 	{
 		return (HAL_GPIO_ReadPin(_set.port, _set.pin) == _set.trigger_level);
 	}
-	//------------------
-	void Button::reset()
+	//---------------
+	void Key::reset()
 	{
 		is_active = false;
 		state = INACTIVE_STATE;
 		time = 0;
 	}
-	//------------------------------------
-	const uint32_t Button::timeout() const
+	//---------------------------------
+	const uint32_t Key::timeout() const
 	{
 		return _set.timeout;
 	}
-	//---------------------------------------------
-	const ButtonState Button::trigger_state() const
+	//---------------------------------------
+	const KeyState Key::trigger_state() const
 	{
 		return _set.trigger_state;
 	}
 	//---------------
 	// Class Keyboard
 	uint32_t Keyboard::period = 100;
-	Keyboard::Keyboard(Button **buttons, size_t size)
+	Keyboard::Keyboard(Key **buttons, size_t size)
 	{
 		_buttons = buttons;
 		_size = size;
@@ -60,7 +60,7 @@ namespace button
 	{
 		for(uint8_t i = 0; i < _size; i++)
 		{
-			Button *button = *(_buttons + i);
+			Key *button = *(_buttons + i);
 
 			if(button)
 			{

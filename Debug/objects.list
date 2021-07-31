@@ -34,7 +34,7 @@
 "./Middlewares/Third_Party/FreeRTOS/Source/timers.o"
 "./Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.o"
 "./Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.o"
-"./libraries/button/Src/button.o"
+"./libraries/key/Src/key.o"
 "./libraries/menu/Src/menu.o"
 "./libraries/ssd1306/Src/fonts.o"
 "./libraries/ssd1306/Src/format.o"

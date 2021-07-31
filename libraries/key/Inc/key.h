@@ -9,61 +9,61 @@
 	#define LIB_BUTTON_BUTTON_H_
 	//---------------
 	#include "main.h"
-	//--------------
-	namespace button
+	//-----------
+	namespace key
 	{
-		enum ButtonState
+		enum KeyState
 		{
 			INACTIVE_STATE,
 			BOUNCE_STATE,
 			PRESSED_STATE,
 			RELEASED_STATE
 		};
-		//------------------
-		struct BUTTON_SetDef
+		//--------------
+		struct key_set_t
 		{
 			GPIO_TypeDef  *port;
 			uint16_t       pin;
 			uint32_t       id;
 			GPIO_PinState  trigger_level;
-			ButtonState    trigger_state;
+			KeyState       trigger_state;
 			uint32_t       timeout;
 			bool           is_repeat;
 		};
-		//----------
-		class Button
+		//-------
+		class Key
 		{
 			public:
-				explicit Button(const BUTTON_SetDef &buttonSet);
+				explicit Key(const key_set_t &buttonSet);
 				const uint32_t id() const;
 				const bool is_repeat() const;
 				const bool read() const;
 				void reset();
 				const uint32_t timeout() const;
-				const ButtonState trigger_state() const;
+				const KeyState trigger_state() const;
 
 			public:
-				bool        is_active;
-				ButtonState state;
-				uint32_t    time;
+				bool     is_active;
+				KeyState state;
+				uint32_t time;
 
 			private:
-				BUTTON_SetDef _set;
-				uint32_t      _timeout;
+				key_set_t _set;
+				uint32_t  _timeout;
 		};
 		//------------
 		class Keyboard
 		{
 			public:
-				explicit Keyboard(Button **buttons, size_t size);
+				explicit Keyboard(Key **buttons, size_t size);
 				void scan();
 
 			public:
 				static uint32_t period;
 
 			private:
-				Button** _buttons;
-				size_t   _size;
+				Key     **_buttons;
+				size_t    _size;
 		};
 	} /* namespace BUTTON */
 #endif /* LIB_BUTTON_BUTTON_H_ */

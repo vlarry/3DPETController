@@ -11,7 +11,7 @@ RM := rm -rf
 -include sources.mk
 -include libraries/ssd1306/Src/subdir.mk
 -include libraries/menu/Src/subdir.mk
--include libraries/button/Src/subdir.mk
+-include libraries/key/Src/subdir.mk
 -include Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/subdir.mk
 -include Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/subdir.mk
 -include Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/subdir.mk

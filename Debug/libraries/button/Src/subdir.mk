@@ -5,13 +5,13 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../libraries/button/Src/button.cpp 
+../libraries/button/Src/key.cpp 
 
 OBJS += \
-./libraries/button/Src/button.o 
+./libraries/button/Src/key.o 
 
 CPP_DEPS += \
-./libraries/button/Src/button.d 
+./libraries/button/Src/key.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
