@@ -1,0 +1,8 @@
+format.cpp:9:5:)	72	static
+format.cpp:124:7:char* convert(char*, int, unsigned int, int)	32	static
+format.cpp:158:5:int GetNumBefore(char**)	40	static
+format.cpp:184:7:char* itoa(char*, int, int)	32	static
+format.cpp:200:7:char* utoa(char*, int, unsigned int)	32	static
+format.cpp:215:7:char* FractionalPartToStr(char*, int, float, int)	48	static
+format.cpp:257:7:char* IntToStrLeadZero(char*, int, int, int)	32	static
+format.cpp:283:7:char* ftoa(char*, int, float, int)	32	static

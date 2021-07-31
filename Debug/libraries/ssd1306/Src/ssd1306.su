@@ -1,0 +1,58 @@
+ssd1306.h:121:3:Point::Point(uint32_t, uint32_t)	24	static
+ssd1306.h:122:12:uint32_t Point::x() const	16	static
+ssd1306.h:123:12:uint32_t Point::y() const	16	static
+ssd1306.h:135:3:Rectangle::Rectangle()	16	static
+ssd1306.h:137:12:uint32_t Rectangle::bottom() const	16	static
+ssd1306.h:138:12:uint32_t Rectangle::left() const	16	static
+ssd1306.h:139:12:uint32_t Rectangle::right() const	16	static
+ssd1306.h:140:12:uint32_t Rectangle::top() const	16	static
+ssd1306.h:141:12:uint32_t Rectangle::X() const	16	static
+ssd1306.h:142:12:uint32_t Rectangle::Y() const	16	static
+ssd1306.h:143:12:uint32_t Rectangle::Height() const	16	static
+ssd1306.h:144:12:uint32_t Rectangle::Width() const	16	static
+ssd1306.h:147:8:void Rectangle::setWidth(uint32_t)	16	static
+ssd1306.h:148:8:void Rectangle::setHeight(uint32_t)	16	static
+ssd1306.h:149:8:bool Rectangle::isValid() const	16	static
+ssd1306.h:150:9:Point Rectangle::center() const	16	static
+ssd1306.cpp:27:23:const uint16_t width()	4	static
+ssd1306.cpp:28:23:const uint16_t height()	4	static
+ssd1306.cpp:30:10:uint16_t ssd1306_GetWidth()	4	static
+ssd1306.cpp:35:10:uint16_t ssd1306_GetHeight()	4	static
+ssd1306.cpp:40:15:SSD1306_COLOR ssd1306_GetColor()	4	static
+ssd1306.cpp:45:6:void ssd1306_SetColor(SSD1306_COLOR)	16	static
+ssd1306.cpp:50:9:uint8_t ssd1306_Init(I2C_HandleTypeDef*)	16	static
+ssd1306.cpp:129:6:void ssd1306_Fill()	16	static
+ssd1306.cpp:142:6:void ssd1306_UpdateScreen()	24	static
+ssd1306.cpp:160:6:void ssd1306_DrawPixel(uint8_t, uint8_t)	40	static
+ssd1306.cpp:187:6:void ssd1306_DrawLine(int16_t, int16_t, int16_t, int16_t)	48	static
+ssd1306.cpp:237:6:void ssd1306_DrawHorizontalLine(int16_t, int16_t, int16_t)	32	static
+ssd1306.cpp:286:6:void ssd1306_DrawVerticalLine(int16_t, int16_t, int16_t)	40	static
+ssd1306.cpp:372:6:void ssd1306_DrawRect(int16_t, int16_t, int16_t, int16_t)	24	static
+ssd1306.cpp:380:6:void ssd1306_DrawRect(const Rectangle&)	32	static
+ssd1306.cpp:389:6:void ssd1306_DrawFillRect(int16_t, int16_t, int16_t, int16_t)	32	static
+ssd1306.cpp:397:6:void ssd1306_DrawFillRect(const Rectangle&)	32	static
+ssd1306.cpp:406:6:void ssd1306_DrawTriangle(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t, uint16_t)	24	static
+ssd1306.cpp:414:6:void ssd1306_DrawFillTriangle(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t, uint16_t)	56	static
+ssd1306.cpp:482:6:void ssd1306_DrawCircle(int16_t, int16_t, int16_t)	24	static
+ssd1306.cpp:510:6:void ssd1306_FillCircle(int16_t, int16_t, int16_t)	24	static
+ssd1306.cpp:535:6:void ssd1306_DrawCircleQuads(int16_t, int16_t, int16_t, uint8_t)	32	static
+ssd1306.cpp:584:6:void ssd1306_DrawProgressBar(uint16_t, uint16_t, uint16_t, uint16_t, uint8_t)	40	static
+ssd1306.cpp:612:6:void ssd1306_DrawImage(uint8_t, uint8_t, const font_t&)	32	static
+ssd1306.cpp:636:6:char ssd1306_DrawChar(char, const font_t&)	40	static
+ssd1306.cpp:678:10:uint16_t ssd1306_DrawUtf8Char(uint16_t, const font_t&)	40	static
+ssd1306.cpp:721:6:char ssd1306_DrawString(char*, const font_t&)	24	static
+ssd1306.cpp:763:6:char ssd1306_DrawString(const Rectangle&, char*, const font_t&, SSD1306_Alignment)	96	static
+ssd1306.cpp:809:6:void ssd1306_SetCursor(uint8_t, uint8_t)	16	static
+ssd1306.cpp:815:6:void ssd1306_DisplayOn()	8	static
+ssd1306.cpp:820:6:void ssd1306_DisplayOff()	8	static
+ssd1306.cpp:825:6:void ssd1306_InvertDisplay()	8	static
+ssd1306.cpp:830:6:void ssd1306_NormalDisplay()	8	static
+ssd1306.cpp:835:6:void ssd1306_ResetOrientation()	8	static
+ssd1306.cpp:841:6:void ssd1306_FlipScreenVertically()	8	static
+ssd1306.cpp:847:6:void ssd1306_MirrorScreen()	8	static
+ssd1306.cpp:853:6:void ssd1306_Clear()	8	static
+ssd1306.cpp:858:6:void ssd1306_Clear(const Rectangle&)	40	static
+ssd1306.cpp:874:11:Rectangle ssd1306_BoundString(const char*, const font_t&, float)	40	static
+ssd1306.cpp:924:13:void ssd1306_WriteCommand(uint8_t)	24	static
+ssd1306.cpp:934:13:void ssd1306_WriteData(uint8_t*, uint16_t)	24	static
+ssd1306.cpp:945:6:void HAL_I2C_MemTxCpltCallback(I2C_HandleTypeDef*)	16	static

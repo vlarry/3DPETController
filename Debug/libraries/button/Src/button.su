@@ -1,0 +1,9 @@
+button.cpp:12:2:button::Button::Button(const button::BUTTON_SetDef&)	24	static
+button.cpp:19:17:const uint32_t button::Button::id() const	16	static
+button.cpp:24:13:const bool button::Button::is_repeat() const	16	static
+button.cpp:29:13:const bool button::Button::read() const	16	static
+button.cpp:34:7:void button::Button::reset()	16	static
+button.cpp:41:17:const uint32_t button::Button::timeout() const	16	static
+button.cpp:46:20:const button::ButtonState button::Button::trigger_state() const	16	static
+button.cpp:53:2:button::Keyboard::Keyboard(button::Button**, size_t)	24	static
+button.cpp:59:7:void button::Keyboard::scan()	32	static
