@@ -34,24 +34,6 @@
 		using callback_t = void (*)(void);
 		//------------
 		class Control;
-		//------------
-		class EventKey
-		{
-			public:
-				explicit EventKey();
-				//---------------------------
-				bool add(const key_t &event);
-				//-----------------------------------------
-				void add_range(key_t *events, size_t size);
-				//-----------------------------
-				bool exist(const key_t &event);
-				//------------------------------
-				bool remove(const key_t &event);
-
-			private:
-				enum { MAX_SIZE = 5 };
-				key_t _events[MAX_SIZE];
-		};
 		//----------
 		class Screen
 		{
@@ -80,7 +62,7 @@
 				explicit Control(const Rectangle &rect, const font_t &font);
 				virtual void draw();
 				const font_t& font() const;
-				virtual void onClick(key_t button_id = BUTTON_SELECT);
+				virtual bool onClick(key_t button_id);
 				const Rectangle& rect() const;
 				void setRectangle(const Rectangle &rect);
 
@@ -89,7 +71,6 @@
 				bool     focus;
 				bool     is_focus;
 				margin_t margin;
-				EventKey events;
 
 			protected:
 				Rectangle _rect;
@@ -113,7 +94,7 @@
 			public:
 				Button();
 				Button(const char *text, const Rectangle &rect, const font_t &font, callback_t callback = nullptr);
-				void onClick(key_t button_id = BUTTON_SELECT) override;
+				bool onClick(key_t button_id) override;
 
 			public:
 				bool is_toggle;

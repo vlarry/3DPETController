@@ -8,68 +8,6 @@
 //------------
 namespace menu
 {
-	EventKey::EventKey()
-	{
-		for(uint8_t i = 0; i < MAX_SIZE; i++)
-		{
-			_events[i] = BUTTON_UNKNOWN;
-		}
-	}
-	//------------------------------------
-	bool EventKey::add(const key_t &event)
-	{
-		if(exist(event))
-			return false;
-
-		for(uint8_t i = 0; i < MAX_SIZE; i++)
-		{
-			if(_events[i] == BUTTON_UNKNOWN)
-			{
-				_events[i] = event;
-				return true;
-			}
-		}
-
-		return false;
-	}
-	//--------------------------------------------------
-	void EventKey::add_range(key_t *events, size_t size)
-	{
-		for(uint8_t i = 0; i < size; i++)
-		{
-			add(events[i]);
-		}
-	}
-	//--------------------------------------
-	bool EventKey::exist(const key_t &event)
-	{
-		for(uint8_t i = 0; i < MAX_SIZE; i++)
-		{
-			if(_events[i] == event)
-			{
-				return true;
-			}
-		}
-
-		return false;
-	}
-	//---------------------------------------
-	bool EventKey::remove(const key_t &event)
-	{
-		if(!exist(event))
-			return false;
-
-		for(uint8_t i = 0; i < MAX_SIZE; i++)
-		{
-			if(_events[i] == event)
-			{
-				_events[i] = BUTTON_UNKNOWN;
-				return true;
-			}
-		}
-
-		return false;
-	}
 	//--------------------
 	//----class Screen----
 	Screen::Screen():
@@ -144,7 +82,7 @@ namespace menu
 
 		return -1;
 	}
-	//-----------------------------------
+	//----------------------------
 	void Screen::onClick(key_t id)
 	{
 		int8_t index = find_focus();
@@ -153,6 +91,10 @@ namespace menu
 			return;
 
 		Control *control_current = *(_controls + index);
+
+		// если onClick возвращает истину, то обрабатывать не надо (уже обработано)
+		if(control_current == nullptr || control_current->onClick(id))
+			return;
 
 		if(id == BUTTON_UP)
 		{
@@ -172,10 +114,6 @@ namespace menu
 				control_current->focus = false;
 				control_next->focus    = true;
 			}
-		}
-		else if(id == BUTTON_SELECT)
-		{
-			control_current->onClick(id);
 		}
 	}
 	//------------------------
@@ -216,9 +154,11 @@ namespace menu
 	{
 		return _font;
 	}
-	//-------------------------------------------
-	void Control::onClick(key_t button_id)
-	{}
+	//------------------------------------
+	bool Control::onClick(key_t button_id)
+	{
+		return false;
+	}
 	//------------------------------------
 	const Rectangle& Control::rect() const
 	{
@@ -277,9 +217,12 @@ namespace menu
 	{
 		is_focus = true;
 	}
-	//------------------------------------------
-	void Button::onClick(key_t button_id)
+	//-----------------------------------
+	bool Button::onClick(key_t button_id)
 	{
+		if(button_id != menu::BUTTON_SELECT)
+			return false;
+
 		if(is_toggle)
 		{
 			checked = !checked;
@@ -288,5 +231,7 @@ namespace menu
 
 		if(_callback != nullptr)
 			_callback();
+
+		return true;
 	}
 } /* namespace menu */

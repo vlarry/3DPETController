@@ -6,26 +6,21 @@ ssd1306.h:143:12:uint32_t Rectangle::Height() const	16	static
 ssd1306.h:144:12:uint32_t Rectangle::Width() const	16	static
 ssd1306.h:145:8:void Rectangle::setX(uint32_t)	16	static
 ssd1306.h:146:8:void Rectangle::setY(uint32_t)	16	static
-menu.cpp:11:2:menu::EventKey::EventKey()	24	static
-menu.cpp:19:7:bool menu::EventKey::add(const menu::key_t&)	24	static
-menu.cpp:36:7:void menu::EventKey::add_range(menu::key_t*, size_t)	32	static
-menu.cpp:44:7:bool menu::EventKey::exist(const menu::key_t&)	24	static
-menu.cpp:57:7:bool menu::EventKey::remove(const menu::key_t&)	24	static
-menu.cpp:75:2:menu::Screen::Screen()	16	static
-menu.cpp:84:2:menu::Screen::Screen(const Rectangle&, menu::Screen*, menu::Screen*, menu::Control**, uint8_t)	40	static
-menu.cpp:106:7:void menu::Screen::draw()	48	static
-menu.cpp:136:9:int8_t menu::Screen::find_focus()	24	static
-menu.cpp:148:7:void menu::Screen::onClick(menu::key_t)	32	static
-menu.cpp:183:2:menu::Control::Control()	24	static
-menu.cpp:192:2:menu::Control::Control(const Rectangle&, const font_t&)	32	static
-menu.cpp:201:7:virtual void menu::Control::draw()	56	static
-menu.cpp:215:16:const font_t& menu::Control::font() const	16	static
-menu.cpp:220:7:virtual void menu::Control::onClick(menu::key_t)	16	static
-menu.cpp:223:19:const Rectangle& menu::Control::rect() const	16	static
-menu.cpp:228:7:void menu::Control::setRectangle(const Rectangle&)	16	static
-menu.cpp:234:2:menu::Label::Label()	16	static
-menu.cpp:240:2:menu::Label::Label(const char*, const Rectangle&, const font_t&)	24	static
-menu.cpp:247:7:virtual void menu::Label::draw()	64	static
-menu.cpp:263:2:menu::Button::Button()	16	static
-menu.cpp:272:2:menu::Button::Button(const char*, const Rectangle&, const font_t&, menu::callback_t)	24	static
-menu.cpp:281:7:virtual void menu::Button::onClick(menu::key_t)	16	static
+menu.cpp:13:2:menu::Screen::Screen()	16	static
+menu.cpp:22:2:menu::Screen::Screen(const Rectangle&, menu::Screen*, menu::Screen*, menu::Control**, uint8_t)	40	static
+menu.cpp:44:7:void menu::Screen::draw()	48	static
+menu.cpp:74:9:int8_t menu::Screen::find_focus()	24	static
+menu.cpp:86:7:void menu::Screen::onClick(menu::key_t)	32	static
+menu.cpp:121:2:menu::Control::Control()	24	static
+menu.cpp:130:2:menu::Control::Control(const Rectangle&, const font_t&)	24	static
+menu.cpp:139:7:virtual void menu::Control::draw()	56	static
+menu.cpp:153:16:const font_t& menu::Control::font() const	16	static
+menu.cpp:158:7:virtual bool menu::Control::onClick(menu::key_t)	16	static
+menu.cpp:163:19:const Rectangle& menu::Control::rect() const	16	static
+menu.cpp:168:7:void menu::Control::setRectangle(const Rectangle&)	16	static
+menu.cpp:174:2:menu::Label::Label()	16	static
+menu.cpp:180:2:menu::Label::Label(const char*, const Rectangle&, const font_t&)	24	static
+menu.cpp:187:7:virtual void menu::Label::draw()	64	static
+menu.cpp:203:2:menu::Button::Button()	16	static
+menu.cpp:212:2:menu::Button::Button(const char*, const Rectangle&, const font_t&, menu::callback_t)	24	static
+menu.cpp:221:7:virtual bool menu::Button::onClick(menu::key_t)	16	static
