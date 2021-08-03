@@ -5,7 +5,7 @@ main.cpp:239:13:void MX_I2C1_Init()	8	static
 main.cpp:286:13:void MX_DMA_Init()	16	static
 main.cpp:304:13:void MX_GPIO_Init()	40	static
 main.cpp:333:6:void StartDefaultTask(void*)	16	static
-main.cpp:351:6:void StartDisplay(void*)	256	static
-main.cpp:417:6:void StartButtonScan(void*)	360	static
-main.cpp:531:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	16	static
-main.cpp:548:6:void Error_Handler()	4	static,ignoring_inline_asm
+main.cpp:351:6:void StartDisplay(void*)	392	static
+main.cpp:420:6:void StartButtonScan(void*)	360	static
+main.cpp:534:6:void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef*)	16	static
+main.cpp:551:6:void Error_Handler()	4	static,ignoring_inline_asm

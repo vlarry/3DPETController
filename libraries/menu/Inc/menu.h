@@ -42,6 +42,7 @@
 				explicit Screen(const Rectangle &rect, Screen *next, Screen *prev, Control **controls, uint8_t count_controls);
 				void draw();
 				int8_t find_focus();
+				int8_t start_position(int8_t index);
 				void onClick(key_t id);
 
 			public:

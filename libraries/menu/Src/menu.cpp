@@ -51,8 +51,15 @@ namespace menu
 
 		if(_controls != nullptr && _count_controls > 0)
 		{
+			int8_t index = find_focus();
+			int8_t start_index = index;
+
+			if(index > 0)
+				start_index = start_position(index);
+
 			uint16_t pos_y = 0;
-			for(uint8_t i = 0; i < _count_controls; i++)
+
+			for(uint8_t i = start_index; i < _count_controls; i++)
 			{
 				Control *control = *(_controls + i);
 
@@ -62,7 +69,12 @@ namespace menu
 					rect.setX(0);
 					rect.setY(pos_y);
 					control->setRectangle(rect);
-					control->draw();
+
+					if(pos_y < SSD1306_HEIGHT)
+						control->draw();
+					else
+						break;
+
 					pos_y += rect.Height();
 				}
 			}
@@ -115,6 +127,27 @@ namespace menu
 				control_next->focus    = true;
 			}
 		}
+	}
+	//-----------------------------------------
+	int8_t Screen::start_position(int8_t index)
+	{
+		int8_t start_index = index;
+		uint16_t height = 0;
+
+		Control *control = *(_controls + index);
+		if(control)
+			height = control->rect().Height();
+
+		do
+		{
+			Control *control = *(_controls + --start_index);
+			if(control)
+			{
+				height += control->rect().Height();
+			}
+		} while(height < SSD1306_HEIGHT && start_index > 0);
+
+		return start_index;
 	}
 	//------------------------
 	//-----class Control------
