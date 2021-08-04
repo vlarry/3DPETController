@@ -43,7 +43,7 @@
 				void draw();
 				int8_t find_focus();
 				int8_t start_position(int8_t index);
-				void onClick(key_t id);
+				void onClick(const key_t id);
 
 			public:
 				bool is_rect;
@@ -63,15 +63,15 @@
 				explicit Control(const Rectangle &rect, const font_t &font);
 				virtual void draw();
 				const font_t& font() const;
-				virtual bool onClick(key_t button_id);
+				virtual bool onClick(const key_t button_id);
 				const Rectangle& rect() const;
 				void setRectangle(const Rectangle &rect);
 
 			public:
-				bool     fill;
-				bool     focus;
-				bool     is_focus;
+				bool     filled;
+				bool     focused;
 				margin_t margin;
+				bool     is_rect;
 
 			protected:
 				Rectangle _rect;
@@ -95,7 +95,7 @@
 			public:
 				Button();
 				Button(const char *text, const Rectangle &rect, const font_t &font, callback_t callback = nullptr);
-				bool onClick(key_t button_id) override;
+				bool onClick(const key_t button_id) override;
 
 			public:
 				bool is_toggle;
@@ -103,6 +103,19 @@
 
 			private:
 				callback_t _callback;
+		};
+		//--------------------------
+		class CheckBox: public Label
+		{
+			public:
+				explicit CheckBox();
+				explicit CheckBox(const char *text, const Rectangle &rect, const font_t &font, alignment_t align);
+				void draw() override;
+				bool onClick(const key_t button_id) override;
+
+			public:
+				bool              checked;
+				alignment_t alignment;
 		};
 	} /* namespace menu */
 #endif /* SCREEN_H_ */

@@ -356,12 +356,13 @@ void StartDisplay(void *argument)
 	Rectangle rectButton(0, 0, SSD1306_WIDTH, 32);
 	menu::Button buttonHeating("НАГРЕВ", rectButton, FontVerdana_16x16);
 	menu::Button buttonMotor("ДВИГАТЕЛЬ", rectButton, FontVerdana_16x16);
+	menu::CheckBox checkBox1("CheckBox", rectButton, FontVerdana_16x16, ALIGN_LEFT);
 	menu::Button buttonItem1("Пункт 1", rectButton, FontVerdana_16x16);
 	menu::Button buttonItem2("Пункт 2", rectButton, FontVerdana_16x16);
 	buttonHeating.is_toggle = buttonMotor.is_toggle = true;
-	buttonMotor.focus = true;
-	menu::Control *controls[] = { &buttonHeating, &buttonMotor, &buttonItem1, &buttonItem2 };
-	menu::Screen screenMain(rectMain, nullptr, nullptr, controls, 4);
+	buttonMotor.focused = true;
+	menu::Control *controls[] = { &buttonHeating, &buttonMotor, &checkBox1, &buttonItem1, &buttonItem2 };
+	menu::Screen screenMain(rectMain, nullptr, nullptr, controls, 5);
 
 	Message_TypeDef message;
 	osStatus_t status;

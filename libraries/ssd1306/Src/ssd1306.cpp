@@ -15,7 +15,7 @@ I2C_HandleTypeDef *_hi2c = nullptr;
 // Screenbuffer
 static uint8_t SSD1306_Buffer[SSD1306_BUFFER_SIZE];
 // SSD1306 display geometry
-SSD1306_Geometry display_geometry = SSD1306_GEOMETRY;
+ssd1306_geometry display_geometry = SSD1306_GEOMETRY;
 //
 //  Send a byte to the command register and data
 //
@@ -37,12 +37,12 @@ uint16_t ssd1306_GetHeight(void)
     return SSD1306_HEIGHT;
 }
 //----------------------------------
-SSD1306_COLOR ssd1306_GetColor(void)
+ssd1306_color ssd1306_GetColor(void)
 {
 	return SSD1306.Color;
 }
 //----------------------------------------
-void ssd1306_SetColor(SSD1306_COLOR color)
+void ssd1306_SetColor(ssd1306_color color)
 {
 	SSD1306.Color = color;
 }
@@ -159,7 +159,7 @@ void ssd1306_UpdateScreen(void)
 //
 void ssd1306_DrawPixel(uint8_t x, uint8_t y)
 {
-	SSD1306_COLOR color = SSD1306.Color;
+	ssd1306_color color = SSD1306.Color;
 
 	if (x >= ssd1306_GetWidth() || y >= ssd1306_GetHeight())
 	{
@@ -170,7 +170,7 @@ void ssd1306_DrawPixel(uint8_t x, uint8_t y)
 	// Check if pixel should be inverted
 	if (SSD1306.Inverted)
 	{
-		color = (SSD1306_COLOR) !color;
+		color = (ssd1306_color) !color;
 	}
 
 	// Draw in the right color
@@ -382,7 +382,7 @@ void ssd1306_DrawRect(const Rectangle& rect)
 	if(rect.isValid())
 	{
 		ssd1306_SetCursor(rect.X(), rect.Y());
-		ssd1306_DrawRect(rect.X(), rect.Y(), rect.Width(), rect.Height());
+		ssd1306_DrawRect(rect.X(), rect.Y(), rect.width(), rect.height());
 	}
 }
 //------------------------------------------------------------------------------------
@@ -399,7 +399,7 @@ void ssd1306_DrawFillRect(const Rectangle& rect)
 	if(rect.isValid())
 	{
 		ssd1306_SetCursor(rect.X(), rect.Y());
-		ssd1306_DrawFillRect(rect.X(), rect.Y(), rect.Width(), rect.Height());
+		ssd1306_DrawFillRect(rect.X(), rect.Y(), rect.width(), rect.height());
 	}
 }
 //-----------------------------------------------------------------------------------------------------
@@ -625,9 +625,9 @@ void ssd1306_DrawImage(const uint8_t x, const uint8_t y, const font_t& image)
 			}
 			else
 			{
-				SSD1306.Color = (SSD1306_COLOR)!SSD1306.Color;
+				SSD1306.Color = (ssd1306_color)!SSD1306.Color;
 				ssd1306_DrawPixel(SSD1306.CurrentX + i/2, SSD1306.CurrentY + j);
-				SSD1306.Color = (SSD1306_COLOR)!SSD1306.Color;
+				SSD1306.Color = (ssd1306_color)!SSD1306.Color;
 			}
 		}
 	}
@@ -661,9 +661,9 @@ char ssd1306_DrawChar(char ch, const font_t& font)
 			}
 			else
 			{
-				SSD1306.Color = (SSD1306_COLOR)!SSD1306.Color;
+				SSD1306.Color = (ssd1306_color)!SSD1306.Color;
 				ssd1306_DrawPixel(SSD1306.CurrentX + i/2, SSD1306.CurrentY + j);
-				SSD1306.Color = (SSD1306_COLOR)!SSD1306.Color;
+				SSD1306.Color = (ssd1306_color)!SSD1306.Color;
 			}
 		}
 	}
@@ -702,9 +702,9 @@ uint16_t ssd1306_DrawUtf8Char(uint16_t ch, const font_t& font)
 			}
 			else
 			{
-				SSD1306.Color = (SSD1306_COLOR)!SSD1306.Color;
+				SSD1306.Color = (ssd1306_color)!SSD1306.Color;
 				ssd1306_DrawPixel(SSD1306.CurrentX + i/2, SSD1306.CurrentY + j);
-				SSD1306.Color = (SSD1306_COLOR)!SSD1306.Color;
+				SSD1306.Color = (ssd1306_color)!SSD1306.Color;
 			}
 		}
 	}
@@ -760,7 +760,7 @@ char ssd1306_DrawString(char* str, const font_t& font)
 	return *str;
 }
 //-------------------------------------------------------------------------------------------------------
-char ssd1306_DrawString(const Rectangle& rect, char* str, const font_t& font, const SSD1306_Alignment align)
+char ssd1306_DrawString(const Rectangle& rect, char* str, const font_t& font, const alignment_t align)
 {
 	Rectangle rect_str = ssd1306_BoundString(str, font);
 	char ch = '\0';
@@ -772,11 +772,11 @@ char ssd1306_DrawString(const Rectangle& rect, char* str, const font_t& font, co
 
 		if(align & ALIGN_LEFT)
 		{
-			pos_x += rect.left();
+			pos_x += 2;
 		}
 		else if(align & ALIGN_RIGHT)
 		{
-			pos_x += rect.right() - rect_str.Width();
+			pos_x = rect.right() - rect_str.width() - 2;
 		}
 		else if(align & ALIGN_HCENTER)
 		{
@@ -785,11 +785,11 @@ char ssd1306_DrawString(const Rectangle& rect, char* str, const font_t& font, co
 
 		if(align & ALIGN_TOP)
 		{
-			pos_y += rect.top();
+			pos_y = rect.top() + 2;
 		}
 		else if(align & ALIGN_BOTTOM)
 		{
-			pos_y += rect.bottom() - rect_str.Height();
+			pos_y = rect.bottom() - rect_str.height() - 2;
 		}
 		else if(align & ALIGN_VCENTER)
 		{
@@ -861,10 +861,10 @@ void ssd1306_Clear(const Rectangle& rect)
 	{
 		ssd1306_SetColor(Inverse);
 
-		for(uint16_t y = 0; y < rect.Height(); y++)
+		for(uint16_t y = 0; y < rect.height(); y++)
 		{
 			uint16_t pos_y = y + rect.Y();
-			ssd1306_DrawLine(rect.X(), pos_y, rect.X() + rect.Width(), pos_y);
+			ssd1306_DrawLine(rect.X(), pos_y, rect.X() + rect.width(), pos_y);
 		}
 
 		ssd1306_SetColor(Inverse);

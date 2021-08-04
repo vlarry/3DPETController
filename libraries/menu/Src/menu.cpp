@@ -32,9 +32,9 @@ namespace menu
 			for(uint8_t i = 0; i < _count_controls; i++)
 			{
 				Control *control = *(_controls + i);
-				if(control && control->is_focus)
+				if(control)
 				{
-					control->focus = true;
+					control->focused = true;
 					break;
 				}
 			}
@@ -75,7 +75,7 @@ namespace menu
 					else
 						break;
 
-					pos_y += rect.Height();
+					pos_y += rect.height();
 				}
 			}
 		}
@@ -88,7 +88,7 @@ namespace menu
 		for(uint8_t i = 0; i < _count_controls; i++)
 		{
 			Control *control = *(_controls + i);
-			if(control && control->is_focus && control->focus)
+			if(control && control->focused)
 				return i;
 		}
 
@@ -113,8 +113,8 @@ namespace menu
 			if(index > 0)
 			{
 				Control *control_prev = *(_controls + (index - 1));
-				control_current->focus = false;
-				control_prev->focus = true;
+				control_current->focused = false;
+				control_prev->focused = true;
 			}
 		}
 		else if(id == BUTTON_DOWN)
@@ -123,8 +123,8 @@ namespace menu
 			{
 				Control *control_next = *(_controls + (index + 1));
 
-				control_current->focus = false;
-				control_next->focus    = true;
+				control_current->focused = false;
+				control_next->focused    = true;
 			}
 		}
 	}
@@ -136,14 +136,14 @@ namespace menu
 
 		Control *control = *(_controls + index);
 		if(control)
-			height = control->rect().Height();
+			height = control->rect().height();
 
 		do
 		{
 			Control *control = *(_controls + --start_index);
 			if(control)
 			{
-				height += control->rect().Height();
+				height += control->rect().height();
 			}
 		} while(height < SSD1306_HEIGHT && start_index > 0);
 
@@ -152,34 +152,36 @@ namespace menu
 	//------------------------
 	//-----class Control------
 	Control::Control():
-		fill(false),
-		focus(false),
-		is_focus(false),
+		filled(false),
+		focused(false),
 		margin({ 5, 5, 5, 5 }),
+		is_rect(true),
 		_rect(Rectangle(0, 0, 0, 0)),
 		_font(font_t({ 0, 0, nullptr }))
 	{}
 	//----------------------------------------------------------
 	Control::Control(const Rectangle &rect, const font_t &font):
-		fill(false),
-		focus(false),
-		is_focus(false),
+		filled(false),
+		focused(false),
 		margin({ 5, 5, 5, 5 }),
+		is_rect(true),
 		_rect(rect),
 		_font(font)
 	{}
 	//------------------
 	void Control::draw()
 	{
-		Rectangle rect(_rect.X() + margin.left, _rect.Y() + margin.top, _rect.Width() - margin.right*2, _rect.Height() - margin.bottom*2);
+		Rectangle rect(_rect.X() + margin.left, _rect.Y() + margin.top, _rect.width() - margin.right*2, _rect.height() - margin.bottom*2);
 
 		ssd1306_SetColor(White);
-		ssd1306_DrawRect(rect);
 
-		if(fill)
+		if(is_rect)
+			ssd1306_DrawRect(rect);
+
+		if(filled)
 			ssd1306_DrawFillRect(rect);
 
-		if(is_focus && focus)
+		if(focused)
 			ssd1306_DrawRect(_rect);
 	}
 	//---------------------------------
@@ -187,8 +189,8 @@ namespace menu
 	{
 		return _font;
 	}
-	//------------------------------------
-	bool Control::onClick(key_t button_id)
+	//------------------------------------------
+	bool Control::onClick(const key_t button_id)
 	{
 		return false;
 	}
@@ -221,11 +223,11 @@ namespace menu
 	{
 		Control::draw();
 
-		Rectangle rect(_rect.X() + margin.left, _rect.Y() + margin.top, _rect.Width() - margin.right*2, _rect.Height() - margin.bottom*2);
+		Rectangle rect(_rect.X() + margin.left, _rect.Y() + margin.top, _rect.width() - margin.right*2, _rect.height() - margin.bottom*2);
 
-		SSD1306_COLOR colorText = White;
+		ssd1306_color colorText = White;
 
-		if(fill)
+		if(filled)
 			colorText = Black;
 
 		ssd1306_SetColor(colorText);
@@ -238,20 +240,16 @@ namespace menu
 		is_toggle(false),
 		checked(false),
 		_callback(nullptr)
-	{
-		is_focus = true;
-	}
+	{}
 	//-----------------------------------------------------------------------------------------------
 	Button::Button(const char *text, const Rectangle &rect, const font_t &font, callback_t callback):
 		Label(text, rect, font),
 		is_toggle(false),
 		checked(false),
 		_callback(callback)
-	{
-		is_focus = true;
-	}
-	//-----------------------------------
-	bool Button::onClick(key_t button_id)
+	{}
+	//-----------------------------------------
+	bool Button::onClick(const key_t button_id)
 	{
 		if(button_id != menu::BUTTON_SELECT)
 			return false;
@@ -259,12 +257,73 @@ namespace menu
 		if(is_toggle)
 		{
 			checked = !checked;
-			fill = checked;
+			filled = checked;
 		}
 
 		if(_callback != nullptr)
 			_callback();
 
 		return true;
+	}
+	//-------------------------
+	//-----class CheckBox------
+	CheckBox::CheckBox():
+		Label(),
+		checked(false),
+		alignment(ALIGN_RIGHT)
+	{
+		filled = false;
+		is_rect = false;
+	}
+	//-------------------------------------------------------------------------------------------------
+	CheckBox::CheckBox(const char *text, const Rectangle &rect, const font_t &font, alignment_t align):
+		Label(text, rect, font),
+		checked(false),
+		alignment(align)
+	{
+		filled = false;
+		is_rect = false;
+	}
+	//-------------------
+	void CheckBox::draw()
+	{
+		Control::draw();
+		Rectangle rect(_rect.X() + margin.left, _rect.Y() + margin.top, _rect.width() - margin.right*2, _rect.height() - margin.bottom*2);
+		Rectangle square(rect.X(), rect.Y(), rect.height(), rect.height());
+
+		if(alignment == ALIGN_LEFT)
+		{
+			square.setX(rect.right() - square.width());
+		}
+
+		alignment_t align = (alignment_t)(ALIGN_VCENTER | alignment);
+
+		ssd1306_SetColor(White);
+		ssd1306_SetCursor(square.X(), square.Y());
+		ssd1306_DrawRect(square);
+		if(checked)
+		{
+			uint16_t len = square.width()/2;
+			uint16_t cx = square.width()/2;
+			uint16_t cy = square.height()/2;
+			uint16_t pos_x = cx - len/2 - 1;
+			uint16_t pos_y = cy - len/2 - 1;
+			Rectangle indicatorRect(pos_x + square.X(), pos_y + square.Y(), len, len);
+			ssd1306_DrawFillRect(indicatorRect);
+		}
+
+		//rect.setX(rect.X() - 5);
+		ssd1306_DrawString(rect, _text, _font, align);
+	}
+	//-------------------------------------------
+	bool CheckBox::onClick(const key_t button_id)
+	{
+		if(button_id == BUTTON_SELECT)
+		{
+			checked = !checked;
+			return true;
+		}
+
+		return false;
 	}
 } /* namespace menu */

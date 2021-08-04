@@ -3,13 +3,12 @@ ssd1306.h:122:12:uint32_t Point::x() const	16	static
 ssd1306.h:123:12:uint32_t Point::y() const	16	static
 ssd1306.h:135:3:Rectangle::Rectangle()	16	static
 ssd1306.h:137:12:uint32_t Rectangle::bottom() const	16	static
-ssd1306.h:138:12:uint32_t Rectangle::left() const	16	static
 ssd1306.h:139:12:uint32_t Rectangle::right() const	16	static
 ssd1306.h:140:12:uint32_t Rectangle::top() const	16	static
 ssd1306.h:141:12:uint32_t Rectangle::X() const	16	static
 ssd1306.h:142:12:uint32_t Rectangle::Y() const	16	static
-ssd1306.h:143:12:uint32_t Rectangle::Height() const	16	static
-ssd1306.h:144:12:uint32_t Rectangle::Width() const	16	static
+ssd1306.h:143:12:uint32_t Rectangle::height() const	16	static
+ssd1306.h:144:12:uint32_t Rectangle::width() const	16	static
 ssd1306.h:147:8:void Rectangle::setWidth(uint32_t)	16	static
 ssd1306.h:148:8:void Rectangle::setHeight(uint32_t)	16	static
 ssd1306.h:149:8:bool Rectangle::isValid() const	16	static
@@ -18,8 +17,8 @@ ssd1306.cpp:27:23:const uint16_t width()	4	static
 ssd1306.cpp:28:23:const uint16_t height()	4	static
 ssd1306.cpp:30:10:uint16_t ssd1306_GetWidth()	4	static
 ssd1306.cpp:35:10:uint16_t ssd1306_GetHeight()	4	static
-ssd1306.cpp:40:15:SSD1306_COLOR ssd1306_GetColor()	4	static
-ssd1306.cpp:45:6:void ssd1306_SetColor(SSD1306_COLOR)	16	static
+ssd1306.cpp:40:15:ssd1306_color ssd1306_GetColor()	4	static
+ssd1306.cpp:45:6:void ssd1306_SetColor(ssd1306_color)	16	static
 ssd1306.cpp:50:9:uint8_t ssd1306_Init(I2C_HandleTypeDef*)	16	static
 ssd1306.cpp:129:6:void ssd1306_Fill()	16	static
 ssd1306.cpp:142:6:void ssd1306_UpdateScreen()	24	static
@@ -41,7 +40,7 @@ ssd1306.cpp:612:6:void ssd1306_DrawImage(uint8_t, uint8_t, const font_t&)	32	sta
 ssd1306.cpp:636:6:char ssd1306_DrawChar(char, const font_t&)	40	static
 ssd1306.cpp:678:10:uint16_t ssd1306_DrawUtf8Char(uint16_t, const font_t&)	40	static
 ssd1306.cpp:721:6:char ssd1306_DrawString(char*, const font_t&)	24	static
-ssd1306.cpp:763:6:char ssd1306_DrawString(const Rectangle&, char*, const font_t&, SSD1306_Alignment)	96	static
+ssd1306.cpp:763:6:char ssd1306_DrawString(const Rectangle&, char*, const font_t&, alignment_t)	96	static
 ssd1306.cpp:809:6:void ssd1306_SetCursor(uint8_t, uint8_t)	16	static
 ssd1306.cpp:815:6:void ssd1306_DisplayOn()	8	static
 ssd1306.cpp:820:6:void ssd1306_DisplayOff()	8	static

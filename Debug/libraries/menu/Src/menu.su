@@ -1,9 +1,10 @@
 ssd1306.h:135:3:Rectangle::Rectangle()	16	static
 ssd1306.h:136:3:Rectangle::Rectangle(uint32_t, uint32_t, uint32_t, uint32_t)	24	static
+ssd1306.h:139:12:uint32_t Rectangle::right() const	16	static
 ssd1306.h:141:12:uint32_t Rectangle::X() const	16	static
 ssd1306.h:142:12:uint32_t Rectangle::Y() const	16	static
-ssd1306.h:143:12:uint32_t Rectangle::Height() const	16	static
-ssd1306.h:144:12:uint32_t Rectangle::Width() const	16	static
+ssd1306.h:143:12:uint32_t Rectangle::height() const	16	static
+ssd1306.h:144:12:uint32_t Rectangle::width() const	16	static
 ssd1306.h:145:8:void Rectangle::setX(uint32_t)	16	static
 ssd1306.h:146:8:void Rectangle::setY(uint32_t)	16	static
 menu.cpp:13:2:menu::Screen::Screen()	16	static
@@ -15,13 +16,17 @@ menu.cpp:132:9:int8_t menu::Screen::start_position(int8_t)	32	static
 menu.cpp:154:2:menu::Control::Control()	24	static
 menu.cpp:163:2:menu::Control::Control(const Rectangle&, const font_t&)	24	static
 menu.cpp:172:7:virtual void menu::Control::draw()	56	static
-menu.cpp:186:16:const font_t& menu::Control::font() const	16	static
-menu.cpp:191:7:virtual bool menu::Control::onClick(menu::key_t)	16	static
-menu.cpp:196:19:const Rectangle& menu::Control::rect() const	16	static
-menu.cpp:201:7:void menu::Control::setRectangle(const Rectangle&)	16	static
-menu.cpp:207:2:menu::Label::Label()	16	static
-menu.cpp:213:2:menu::Label::Label(const char*, const Rectangle&, const font_t&)	24	static
-menu.cpp:220:7:virtual void menu::Label::draw()	64	static
-menu.cpp:236:2:menu::Button::Button()	16	static
+menu.cpp:188:16:const font_t& menu::Control::font() const	16	static
+menu.cpp:193:7:virtual bool menu::Control::onClick(menu::key_t)	16	static
+menu.cpp:198:19:const Rectangle& menu::Control::rect() const	16	static
+menu.cpp:203:7:void menu::Control::setRectangle(const Rectangle&)	16	static
+menu.cpp:209:2:menu::Label::Label()	16	static
+menu.cpp:215:2:menu::Label::Label(const char*, const Rectangle&, const font_t&)	24	static
+menu.cpp:222:7:virtual void menu::Label::draw()	64	static
+menu.cpp:238:2:menu::Button::Button()	16	static
 menu.cpp:245:2:menu::Button::Button(const char*, const Rectangle&, const font_t&, menu::callback_t)	24	static
-menu.cpp:254:7:virtual bool menu::Button::onClick(menu::key_t)	16	static
+menu.cpp:252:7:virtual bool menu::Button::onClick(menu::key_t)	16	static
+menu.cpp:270:2:menu::CheckBox::CheckBox()	16	static
+menu.cpp:279:2:menu::CheckBox::CheckBox(const char*, const Rectangle&, const font_t&, alignment_t)	24	static
+menu.cpp:288:7:virtual void menu::CheckBox::draw()	104	static
+menu.cpp:319:7:virtual bool menu::CheckBox::onClick(menu::key_t)	16	static

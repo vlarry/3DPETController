@@ -66,20 +66,20 @@
 //
 //  Enumeration for screen colors
 //
-enum SSD1306_COLOR
+enum ssd1306_color
 {
     Black   = ((uint8_t)0x00), // Black color, no pixel
     White   = ((uint8_t)0x01),  //Pixel is set. Color depends on LCD
     Inverse = ((uint8_t)0x02)
 };
 //-------------------
-enum SSD1306_Geometry
+enum ssd1306_geometry
 {
-  GEOMETRY_128_64   = 0,
-  GEOMETRY_128_32   = 1
+  GEOMETRY_128_64 = 0,
+  GEOMETRY_128_32 = 1
 };
-//--------------------
-enum SSD1306_Alignment
+//--------------
+enum alignment_t
 {
 	ALIGN_NONE    = 0,
 	ALIGN_LEFT    = 1,
@@ -104,7 +104,7 @@ struct SSD1306_t
     uint16_t CurrentX;
     uint16_t CurrentY;
     uint8_t Inverted;
-    SSD1306_COLOR Color;
+    ssd1306_color Color;
     uint8_t Initialized;
 };
 //------------
@@ -140,8 +140,8 @@ class Rectangle
 		uint32_t top() const { return _y; }
 		uint32_t X() const { return _x; }
 		uint32_t Y() const { return _y; }
-		uint32_t Height() const { return _height; }
-		uint32_t Width() const { return _width; }
+		uint32_t height() const { return _height; }
+		uint32_t width() const { return _width; }
 		void setX(uint32_t x) { _x = x; }
 		void setY(uint32_t y) { _y = y; }
 		void setWidth(uint32_t w) { _width = w; }
@@ -161,8 +161,8 @@ class Rectangle
 //------------------------------
 uint16_t ssd1306_GetWidth(void);
 uint16_t ssd1306_GetHeight(void);
-SSD1306_COLOR ssd1306_GetColor(void);
-void ssd1306_SetColor(SSD1306_COLOR color);
+ssd1306_color ssd1306_GetColor(void);
+void ssd1306_SetColor(ssd1306_color color);
 uint8_t ssd1306_Init(I2C_HandleTypeDef *hi2c);
 void ssd1306_Fill();
 void ssd1306_UpdateScreen(void);
@@ -183,7 +183,7 @@ void ssd1306_DrawProgressBar(uint16_t x, uint16_t y, uint16_t width, uint16_t he
 char ssd1306_DrawChar(char ch, const font_t& font);
 uint16_t ssd1306_DrawUtf8Char(uint16_t ch, const font_t& font);
 char ssd1306_DrawString(char* str, const font_t& font);
-char ssd1306_DrawString(const Rectangle& rect, char* str, const font_t& font, const SSD1306_Alignment align = (SSD1306_Alignment)(ALIGN_NONE));
+char ssd1306_DrawString(const Rectangle& rect, char* str, const font_t& font, const alignment_t align = (alignment_t)(ALIGN_NONE));
 void ssd1306_SetCursor(uint8_t x, uint8_t y);
 void ssd1306_DisplayOn(void);
 void ssd1306_DisplayOff(void);
