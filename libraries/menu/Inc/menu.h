@@ -10,6 +10,7 @@
 	//------------------
 	#include "ssd1306.h"
 	#include "string.h"
+	#include "key.h"
 	//------------
 	namespace menu
 	{
@@ -43,7 +44,7 @@
 				void draw();
 				int8_t find_focus();
 				int8_t start_position(int8_t index);
-				void onClick(const key_t id);
+				void onClick(const key_t key);
 
 			public:
 				bool is_rect;
@@ -63,7 +64,7 @@
 				explicit Control(const Rectangle &rect, const font_t &font);
 				virtual void draw();
 				const font_t& font() const;
-				virtual bool onClick(const key_t button_id);
+				virtual bool onClick(const key_t key);
 				const Rectangle& rect() const;
 				void setRectangle(const Rectangle &rect);
 
@@ -95,7 +96,7 @@
 			public:
 				Button();
 				Button(const char *text, const Rectangle &rect, const font_t &font, callback_t callback = nullptr);
-				bool onClick(const key_t button_id) override;
+				bool onClick(const key_t key) override;
 
 			public:
 				bool is_toggle;
@@ -111,11 +112,41 @@
 				explicit CheckBox();
 				explicit CheckBox(const char *text, const Rectangle &rect, const font_t &font, alignment_t align);
 				void draw() override;
-				bool onClick(const key_t button_id) override;
+				bool onClick(const key_t key) override;
 
 			public:
 				bool              checked;
 				alignment_t alignment;
+		};
+		//---------------------------
+		class SpinBox: public Control
+		{
+			public:
+				explicit SpinBox(const Rectangle &rect, const font_t &font, uint32_t *ivalue, uint32_t imax = 1000, uint32_t imin = 0, uint32_t istep = 1);
+				void draw() override;
+				bool onClick(const key_t key) override;
+				uint32_t value();
+
+			public:
+				uint32_t max;
+				uint32_t min;
+				uint32_t step;
+				bool     edit;
+				uint8_t  arrow_dir;
+
+			private:
+				uint32_t *_value;
+		};
+
+		class Line: public Control
+		{
+			public:
+				explicit Line();
+				explicit Line(const Rectangle &rect, const font_t &font, uint32_t *ivalue);
+				void draw() override;
+
+			public:
+				uint32_t *_value;
 		};
 	} /* namespace menu */
 #endif /* SCREEN_H_ */

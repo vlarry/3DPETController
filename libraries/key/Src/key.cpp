@@ -49,7 +49,7 @@ namespace key
 	}
 	//---------------
 	// Class Keyboard
-	uint32_t Keyboard::period = 100;
+	uint32_t Keyboard::period = 50;
 	Keyboard::Keyboard(Key **buttons, size_t size)
 	{
 		_buttons = buttons;

@@ -18,7 +18,6 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
-#include <key.h>
 #include "main.h"
 #include "cmsis_os.h"
 
@@ -56,7 +55,7 @@ const osThreadAttr_t defaultTask_attributes = {
 osThreadId_t displayHandle;
 const osThreadAttr_t display_attributes = {
   .name = "display",
-  .stack_size = 256 * 4,
+  .stack_size = 512 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for buttonScan */
@@ -354,15 +353,17 @@ void StartDisplay(void *argument)
 	ssd1306_Init(&hi2c1);
 	Rectangle rectMain(0, 0, SSD1306_WIDTH, SSD1306_HEIGHT);
 	Rectangle rectButton(0, 0, SSD1306_WIDTH, 32);
+	uint32_t value = 5000;
+	menu::Line line1(rectButton, FontVerdana_16x16, &value);
+	menu::SpinBox spinBox1(rectButton, FontVerdana_16x16, &value, 10000, 0, 100);
 	menu::Button buttonHeating("НАГРЕВ", rectButton, FontVerdana_16x16);
 	menu::Button buttonMotor("ДВИГАТЕЛЬ", rectButton, FontVerdana_16x16);
-	menu::CheckBox checkBox1("CheckBox", rectButton, FontVerdana_16x16, ALIGN_LEFT);
+	menu::CheckBox checkBox1("CheckBox", rectButton, FontVerdana_16x16, ALIGN_RIGHT);
 	menu::Button buttonItem1("Пункт 1", rectButton, FontVerdana_16x16);
 	menu::Button buttonItem2("Пункт 2", rectButton, FontVerdana_16x16);
 	buttonHeating.is_toggle = buttonMotor.is_toggle = true;
-	buttonMotor.focused = true;
-	menu::Control *controls[] = { &buttonHeating, &buttonMotor, &checkBox1, &buttonItem1, &buttonItem2 };
-	menu::Screen screenMain(rectMain, nullptr, nullptr, controls, 5);
+	menu::Control *controls[] = { &line1, &spinBox1, &buttonHeating, &buttonMotor, &checkBox1, &buttonItem1, &buttonItem2 };
+	menu::Screen screenMain(rectMain, nullptr, nullptr, controls, 7);
 
 	Message_TypeDef message;
 	osStatus_t status;
@@ -393,9 +394,6 @@ void StartDisplay(void *argument)
 										screenMain.onClick((menu::key_t)bit);
 										id_buttons &= ~bit;
 									}
-
-//									if(id_buttons == 0)
-//										break;
 								}
 							}
 						}

@@ -478,6 +478,16 @@ void ssd1306_DrawFillTriangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2
 		y += yinc2;
 	}
 }
+//--------------------------------------------------------------------------
+void ssd1306_DrawTriangle(const Point &p1, const Point &p2, const Point &p3)
+{
+	ssd1306_DrawTriangle(p1.x(), p1.y(), p2.x(), p2.y(), p3.x(), p3.y());
+}
+//------------------------------------------------------------------------------
+void ssd1306_DrawFillTriangle(const Point &p1, const Point &p2, const Point &p3)
+{
+	ssd1306_DrawFillTriangle(p1.x(), p1.y(), p2.x(), p2.y(), p3.x(), p3.y());
+}
 //-------------------------------------------------------------
 void ssd1306_DrawCircle(int16_t x0, int16_t y0, int16_t radius)
 {
@@ -507,7 +517,7 @@ void ssd1306_DrawCircle(int16_t x0, int16_t y0, int16_t radius)
 	ssd1306_DrawPixel(x0, y0 - radius);
 }
 //-------------------------------------------------------------
-void ssd1306_FillCircle(int16_t x0, int16_t y0, int16_t radius)
+void ssd1306_DrawFillCircle(int16_t x0, int16_t y0, int16_t radius)
 {
   int16_t x = 0, y = radius;
   int16_t dp = 1 - radius;
@@ -597,9 +607,9 @@ void ssd1306_DrawProgressBar(uint16_t x, uint16_t y, uint16_t width, uint16_t he
 
 	uint16_t maxProgressWidth = (width - doubleRadius + 1) * progress / 100;
 
-	ssd1306_FillCircle(xRadius, yRadius, innerRadius);
+	ssd1306_DrawFillCircle(xRadius, yRadius, innerRadius);
 	ssd1306_DrawFillRect(xRadius + 1, y + 2, maxProgressWidth, height - 3);
-	ssd1306_FillCircle(xRadius + maxProgressWidth, yRadius, innerRadius);
+	ssd1306_DrawFillCircle(xRadius + maxProgressWidth, yRadius, innerRadius);
 }
 // Draw monochrome bitmap
 // input:

@@ -1,6 +1,9 @@
+ssd1306.h:121:3:Point::Point(uint32_t, uint32_t)	24	static
 ssd1306.h:135:3:Rectangle::Rectangle()	16	static
 ssd1306.h:136:3:Rectangle::Rectangle(uint32_t, uint32_t, uint32_t, uint32_t)	24	static
+ssd1306.h:137:12:uint32_t Rectangle::bottom() const	16	static
 ssd1306.h:139:12:uint32_t Rectangle::right() const	16	static
+ssd1306.h:140:12:uint32_t Rectangle::top() const	16	static
 ssd1306.h:141:12:uint32_t Rectangle::X() const	16	static
 ssd1306.h:142:12:uint32_t Rectangle::Y() const	16	static
 ssd1306.h:143:12:uint32_t Rectangle::height() const	16	static
@@ -30,3 +33,10 @@ menu.cpp:270:2:menu::CheckBox::CheckBox()	16	static
 menu.cpp:279:2:menu::CheckBox::CheckBox(const char*, const Rectangle&, const font_t&, alignment_t)	24	static
 menu.cpp:288:7:virtual void menu::CheckBox::draw()	104	static
 menu.cpp:319:7:virtual bool menu::CheckBox::onClick(menu::key_t)	16	static
+menu.cpp:331:2:menu::SpinBox::SpinBox(const Rectangle&, const font_t&, uint32_t*, uint32_t, uint32_t, uint32_t)	24	static
+menu.cpp:343:7:virtual void menu::SpinBox::draw()	136	static
+menu.cpp:387:7:virtual bool menu::SpinBox::onClick(menu::key_t)	24	static
+menu.cpp:420:11:uint32_t menu::SpinBox::value()	16	static
+menu.cpp:426:2:menu::Line::Line()	16	static
+menu.cpp:433:2:menu::Line::Line(const Rectangle&, const font_t&, uint32_t*)	24	static
+menu.cpp:440:7:virtual void menu::Line::draw()	72	static

@@ -94,8 +94,8 @@ namespace menu
 
 		return -1;
 	}
-	//----------------------------
-	void Screen::onClick(key_t id)
+	//-----------------------------
+	void Screen::onClick(key_t key)
 	{
 		int8_t index = find_focus();
 
@@ -105,10 +105,10 @@ namespace menu
 		Control *control_current = *(_controls + index);
 
 		// если onClick возвращает истину, то обрабатывать не надо (уже обработано)
-		if(control_current == nullptr || control_current->onClick(id))
+		if(control_current == nullptr || control_current->onClick(key))
 			return;
 
-		if(id == BUTTON_UP)
+		if(key == BUTTON_UP)
 		{
 			if(index > 0)
 			{
@@ -117,7 +117,7 @@ namespace menu
 				control_prev->focused = true;
 			}
 		}
-		else if(id == BUTTON_DOWN)
+		else if(key == BUTTON_DOWN)
 		{
 			if(index < (_count_controls - 1))
 			{
@@ -189,8 +189,8 @@ namespace menu
 	{
 		return _font;
 	}
-	//------------------------------------------
-	bool Control::onClick(const key_t button_id)
+	//------------------------------------
+	bool Control::onClick(const key_t key)
 	{
 		return false;
 	}
@@ -248,10 +248,10 @@ namespace menu
 		checked(false),
 		_callback(callback)
 	{}
-	//-----------------------------------------
-	bool Button::onClick(const key_t button_id)
+	//-----------------------------------
+	bool Button::onClick(const key_t key)
 	{
-		if(button_id != menu::BUTTON_SELECT)
+		if(key != menu::BUTTON_SELECT)
 			return false;
 
 		if(is_toggle)
@@ -315,15 +315,134 @@ namespace menu
 		//rect.setX(rect.X() - 5);
 		ssd1306_DrawString(rect, _text, _font, align);
 	}
-	//-------------------------------------------
-	bool CheckBox::onClick(const key_t button_id)
+	//-------------------------------------
+	bool CheckBox::onClick(const key_t key)
 	{
-		if(button_id == BUTTON_SELECT)
+		if(key == BUTTON_SELECT)
 		{
 			checked = !checked;
 			return true;
 		}
 
 		return false;
+	}
+	//------------------------
+	//-----class SpinBox------
+	SpinBox::SpinBox(const Rectangle &rect, const font_t &font, uint32_t *ivalue, uint32_t imax, uint32_t imin, uint32_t istep):
+		Control(rect, font),
+		max(imax),
+		min(imin),
+		step(istep),
+		edit(false),
+		arrow_dir(0),
+		_value(ivalue)
+	{
+		filled = is_rect = false;
+	}
+	//------------------
+	void SpinBox::draw()
+	{
+		Control::draw();
+		Rectangle rectNumber(_rect.X() + margin.left, _rect.Y() + margin.top, _rect.width() - margin.right*2 - 15, _rect.height() - margin.bottom*2);
+		Rectangle rectArrow(rectNumber.right() - 1, rectNumber.top(), 15, rectNumber.height());
+
+		if(!edit)
+			ssd1306_DrawRect(rectNumber);
+		else
+			ssd1306_DrawFillRect(rectNumber);
+
+		char text[15];
+		if(edit)
+		{
+			ssd1306_SetColor(Black);
+			ssd1306_DrawString(rectNumber, convert(text, 15, *_value, 10), _font, ALIGN_CENTER);
+			ssd1306_SetColor(White);
+		}
+		else
+		{
+			ssd1306_DrawString(rectNumber, convert(text, 15, *_value, 10), _font, ALIGN_CENTER);
+		}
+
+		ssd1306_DrawRect(rectArrow);
+
+		Point arrow1_p1(rectArrow.X() + (rectArrow.width()/2), rectArrow.top() + 3);
+		Point arrow1_p2(rectArrow.X() + rectArrow.width()/2 + 3, rectArrow.top() + 8);
+		Point arrow1_p3(rectArrow.X() + (rectArrow.width()/2 - 3), rectArrow.top() + 8);
+
+		Point arrow2_p1(rectArrow.X() + (rectArrow.width()/2), rectArrow.bottom() - 3);
+		Point arrow2_p2(rectArrow.X() + rectArrow.width()/2 + 3, rectArrow.bottom() - 8);
+		Point arrow2_p3(rectArrow.X() + (rectArrow.width()/2 - 3), rectArrow.bottom() - 8);
+
+		if(arrow_dir == 0)
+		{
+			ssd1306_DrawTriangle(arrow1_p1, arrow1_p2, arrow1_p3);
+			ssd1306_DrawTriangle(arrow2_p1, arrow2_p2, arrow2_p3);
+		}
+		else if(arrow_dir == 1)
+			ssd1306_DrawFillTriangle(arrow1_p1, arrow1_p2, arrow1_p3);
+		else if(arrow_dir == 2)
+			ssd1306_DrawFillTriangle(arrow2_p1, arrow2_p2, arrow2_p3);
+	}
+	//------------------------------------
+	bool SpinBox::onClick(const key_t key)
+	{
+		bool result = false;
+
+		if(key == BUTTON_SELECT)
+		{
+			edit = !edit;
+
+			if(!edit)
+				arrow_dir = 0;
+
+			result = true;
+		}
+		else if(key == BUTTON_UP && edit)
+		{
+			if((*_value + step) < max)
+				*_value += step;
+
+			arrow_dir = 1;
+			result = true;
+		}
+		else if(key == BUTTON_DOWN && edit)
+		{
+			if((*_value - step) > min)
+				*_value -= step;
+
+			arrow_dir = 2;
+			result = true;
+		}
+
+		return result;
+	}
+	//-----------------------
+	uint32_t SpinBox::value()
+	{
+		return *_value;
+	}
+	//-------------------------
+	//-------class Line--------
+	Line::Line():
+		Control(),
+		_value(0)
+	{
+		filled = false;
+	}
+	//----------------------------------------------------------------------
+	Line::Line(const Rectangle &rect, const font_t &font, uint32_t *ivalue):
+		Control(rect, font),
+		_value(ivalue)
+	{
+		filled = false;
+	}
+	//---------------
+	void Line::draw()
+	{
+		Control::draw();
+		Rectangle rect(_rect.X() + margin.left, _rect.Y() + margin.top, _rect.width() - margin.right*2, _rect.height() - margin.bottom*2);
+
+		char text[15];
+		ssd1306_DrawString(rect, convert(text, 15, *_value, 10), _font, ALIGN_CENTER);
 	}
 } /* namespace menu */
